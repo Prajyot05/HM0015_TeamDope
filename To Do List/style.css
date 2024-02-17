@@ -9,6 +9,73 @@ body {
   background-size: cover;
   background-position: bottom;
 }
+
+#nav{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2vw;
+  width: 100vh;
+  height: 20vh;
+  margin-top: -21vw;
+  position: absolute;
+}
+
+#nav img{
+  width: 20vw;
+  height: auto;
+  margin: -5vw;
+  margin-left: -55vw;
+}
+
+#nav-part2{
+  display: flex;
+  gap: 2vw;
+  margin-right: -10vw;
+}
+
+#nav-part2 a{
+  text-decoration: none;
+  font-size: 1.5vw;
+}
+
+#nav-part2 h4{
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: 350;
+  letter-spacing: -0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+#nav-part2 h4::after{
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  left: 0;
+  bottom: -100%;
+  border-radius: 50px;
+  transition: all ease 0.3s;
+}
+
+#nav-part2 h4:hover::after{
+  bottom: 0;
+  border-radius: 0;
+}
+
+#nav-part2 h4 a{
+  text-decoration: none;
+  color: black;
+  position: relative;
+  z-index: 9;
+}
+
+#nav-part2 h4:hover a{
+  color: white;
+}
+
 .container {
   width: 90%;
   max-width: 34em;
