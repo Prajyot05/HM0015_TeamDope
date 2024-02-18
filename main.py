@@ -1,3 +1,5 @@
 user_name = "type the username"
-
-def pom_analysis:
+import os
+sheety_endpoint =  os.environ["sheety_endpoint"]
+def pom_analysis():
+    pass

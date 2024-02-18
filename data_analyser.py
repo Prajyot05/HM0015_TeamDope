@@ -1,8 +1,14 @@
 import user_def
 import requests
 import pandas as pd
+import os
 
-sheety_endpoint = "https://api.sheety.co/d052d61d7647c0b06fbfc305f5f515e1/sponsorshipsMails/balsaWood"
+api_key = os.environ["api_key"]
+sheety_endpoint = f"https://api.sheety.co/{api_key}/dopeStudy/sheet1"
+
+
+# print(sheety_endpoint)
+
 
 class Data(user_def.UserDef):
     def __init__(self, user_name):
@@ -12,27 +18,67 @@ class Data(user_def.UserDef):
         """retreives the user data from the database"""
 
         get = requests.get(url=sheety_endpoint)
-        self.data = get.json()
+        self.data = get.json()["sheet1"]
         print(self.data)
         # name = self.data["sheet1"][0]["name"]
         # total_study_time = self.data["sheet1"][0]["totalStudyHours"]
         # todo_topics = self.data["sheet1"][0]['todoTopics']
         # todo_topics = len(dict["todo_topics"])
 
+    def useful_json(self):
+        id = [n["id"] for n in self.data]
+        name = [n["name"] for n in self.data]
+        todo_topics = [n["todoTopics"] for n in self.data]
+        total_study_time = [n["totalStudyTime"] for n in self.data]
+
+        return pd.DataFrame({
+            "id": id,
+            "name": name,
+            "todo_topics": todo_topics,
+            "total_study_time": total_study_time
+        })
+
     def make_graph(self):
-        pie_data = pd.read_json(self.data)
-        pd.DataFrame(pie_data)
-        import seaborn
+        self.pie_data = self.useful_json()
+        print(self.pie_data)
+        # pd.DataFrame(pie_data)
+
+        import matplotlib.pyplot as plt
+
+        plt.bar(self.pie_data["id"],self.pie_data["total_study_time"])
+        # graph = sns.histplot(pie_data, x="name" ,y="total_study_time")
+        plt.xlabel('ID')
+        plt.ylabel('TotalStudyTime')
+        plt.show()
 
 
 
     def data_analyser(self):
-        pass
-        # import numpy as np
-        # from sklearn.model_selection import train_test_split
-        # from sklearn.linear_model import LinearRegression
-        # from sklearn.metrics import mean_squared_error
+        from sklearn.model_selection import train_test_split
+        from sklearn.linear_model import LinearRegression
+        from sklearn.metrics import mean_squared_error
+
+
+        lr_data = self.useful_json()
+        # print(lr_data)
+        X = lr_data[["id", "todo_topics"]]
+        y = lr_data['total_study_time']
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+        model = LinearRegression()
+        model.fit(X_train, y_train)
+
+        predictor = model.predict(X_test)
+        mse = mean_squared_error(y_test, predictor)
+
+        print(predictor)
+        print(mse)
 
 
 pie = Data("x")
 pie.getdata()
+pie.data_analyser()
+pie.make_graph()
+
+# pie.useful_json()
