@@ -1,4 +1,4 @@
-# HM0015 DebugThugs
+# HM0015 TeamDope
 
 ## Design a solution to improve the focus of students and enhance attention span while studying.
 
