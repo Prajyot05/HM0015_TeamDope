@@ -27,13 +27,13 @@ class Data(user_def.UserDef):
 
     def useful_json(self):
         id = [n["id"] for n in self.data]
-        name = [n["name"] for n in self.data]
+        # name = [n["name"] for n in self.data]
         todo_topics = [n["todoTopics"] for n in self.data]
         total_study_time = [n["totalStudyTime"] for n in self.data]
 
         return pd.DataFrame({
             "id": id,
-            "name": name,
+            # "name": name,
             "todo_topics": todo_topics,
             "total_study_time": total_study_time
         })
